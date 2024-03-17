@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    avatar:{
+        type: String,
+        default: "https://cdn.pixabay.com/photo/2023/05/02/10/32/avatar-7964941_640.png",
+    },
 }, {timestamps: true});
 
 const User = mongoose.model('User', userSchema);
