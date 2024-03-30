@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function UpdateListing() {
-    const params = useParams();
+  const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
@@ -33,21 +33,20 @@ export default function UpdateListing() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   console.log(formData);
-  
 
   useEffect(() => {
     const fetchListing = async () => {
-        const listingId = params.listingId;
-        const res = await fetch(`/api/listing/get/${listingId}`);
-        const data = await res.json();
-        setFormData(data);
-        if (data.success === false) {
-            console.log(data.message);
-            return;
-        }
+      const listingId = params.listingId;
+      const res = await fetch(`/api/listing/get/${listingId}`);
+      const data = await res.json();
+      setFormData(data);
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
     };
     fetchListing();
-  },[]);
+  }, []);
 
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
@@ -299,7 +298,12 @@ export default function UpdateListing() {
               />
               <div className=" flex flex-col items-center">
                 <p>Regular Price</p>
-                <span className=" text-xs"> (Rs. / month) </span>
+                {formData.type === "rent" && (
+                  <span className=" text-xs"> (Rs. / month) </span>
+                )}
+                {formData.type === "sale" && (
+                  <span className=" text-xs"> (Rs.) </span>
+                )}
               </div>
             </div>
             {formData.offer && (
@@ -316,7 +320,12 @@ export default function UpdateListing() {
                 />
                 <div className=" flex flex-col items-center">
                   <p>Discounted Price</p>
-                  <span className=" text-xs"> (Rs. / month) </span>
+                  {formData.type === "rent" && (
+                    <span className=" text-xs"> (Rs. / month) </span>
+                  )}
+                  {formData.type === "sale" && (
+                    <span className=" text-xs"> (Rs.) </span>
+                  )}{" "}
                 </div>
               </div>
             )}
